@@ -1,252 +1,100 @@
-# Cybersecurity Learning Portfolio – DFIR, Artifact Analysis and Lab Infrastructure
+# Cybersecurity Learning Portfolio
 
-## Overview
+**Blue Team / DFIR · Linux · Security Labs · Hardware Security**
 
-This repository contains a sanitized cybersecurity learning portfolio based on my work in a cyber defence exercise environment and related preparation work.
+## About this portfolio
 
-The portfolio focuses on practical blue team learning, especially:
+I'm an ICT student focusing on data networks and cybersecurity. My main interest is on the defensive side: understanding what happened, finding the evidence and being able to explain the result. I also enjoy building the lab environments needed to investigate things properly.
 
-- DFIR and artifact analysis
-- Disk image / VMDK analysis with SIFT
-- Phishing artifact analysis with REMnux
-- Mobile / source code analysis
-- Proxmox-based lab preparation
-- Local AI-assisted analysis environment support
-- Technical documentation and reusable playbooks
-- Elastic/Kibana preparation before the exercise
+This repository is where I document some of that hands-on work. It includes an independent USB-C dock investigation and a sanitized overview of my work in a cyber defence exercise environment. These are separate projects, and I try to make that distinction clear.
 
-This public version does not include confidential exercise material, real internal IP addresses, hostnames, domains, indicators of compromise, credentials, screenshots with sensitive data, organization-specific information or exact exercise solutions.
+I'm not presenting every tool I've tried as an area of expertise. The idea is to show **what I actually did, how I approached it, what I found and what remained unanswered**.
 
-The goal is to show what I practiced, what I built, how I approached the work, and what I learned.
+## Projects
 
----
+### DELTACO USBC-DOCK2 – USB-C Dock Security Analysis (October 2026)
 
-## My Actual Role
+I bought a sealed 11-in-1 USB-C dock through a normal retail channel and wanted to understand what it actually does when connected to a computer. A dock may look like one device, but Linux can see several USB devices and interfaces behind it. I wanted to find out which ones were expected and whether anything unusual appeared.
 
-My final hands-on work during the exercise focused mainly on forensic and artifact analysis using SIFT and REMnux.
+I started with Ubuntu 26.04.1 Live on my ASUS Zenbook, kept the first tests offline and compared the system before and after connecting the dock. I then tested its features one at a time. For Ethernet, I used a separate Ubuntu laptop (Lenovo ThinkPad X230) and captured traffic from both ends of an isolated connection.
 
-My main practical work included:
+**What I checked:**
 
-- Inspecting VMDK / disk image evidence with a SIFT-style forensic workflow
-- Analyzing phishing-related artifacts with REMnux
-- Reviewing mobile/source-code related artifacts statically
-- Documenting observations, findings, assumptions and next steps
-- Supporting the wider lab environment and technical documentation
+- USB topology, device classes, VID/PID identifiers and Linux drivers
+- Storage/card reader, HID and audio interfaces, and display functionality
+- Ethernet link, ARP, ICMP traffic, packet captures and interface error counters
+- Evidence collection and SHA256 integrity checks
 
-I also prepared and practiced other areas before the exercise, including Elastic/Kibana log analysis and SOC/threat hunting workflows. However, my final hands-on exercise work did not mainly focus on Elastic/Kibana.
+The Ethernet link negotiated at **1000 Mbit/s full duplex**. Bidirectional ICMP tests worked without packet loss, and the packet captures contained traffic consistent with the tests and host services. I did not observe behavior indicating malicious activity in the features I tested.
 
----
+That is **not** the same as proving the dock is secure. USB-C Power Delivery was not tested, and I did not carry out firmware reverse engineering.
 
-## Main Hands-on Work
+**[Read the project write-up](projects/deltaco-usbc-dock2/README.md)**  
+[Technical DFIR report (Finnish)](projects/deltaco-usbc-dock2/docs/technical-report-fi.md) · [Step-by-step investigation guide (Finnish)](projects/deltaco-usbc-dock2/docs/investigation-guide-fi.md)
 
-### VMDK / Disk Image Analysis with SIFT
+### Cyber Defence Exercise – Forensics and Artifact Analysis
 
-I used a SIFT-style forensic workstation to inspect disk image evidence in a controlled way.
+My main hands-on work in the exercise was **forensic and artifact analysis**, particularly with SIFT and REMnux. I also supported the lab environment and prepared other Blue Team workflows beforehand.
 
-The work included:
+I have kept the public documentation sanitized. It describes methods and learning outcomes without exposing exercise-specific evidence or internal details.
 
-- Identifying disk image structure and partitions
-- Working from a controlled analysis environment
-- Mounting or preparing evidence for inspection in a safe way
-- Reviewing file system contents
-- Checking user directories and common artifact locations
-- Looking for recently modified files, suspicious scripts, binaries or unusual filenames
-- Reviewing logs and timestamps where available
-- Documenting commands, observations and open questions
-- Separating confirmed observations from assumptions
+#### Disk image / VMDK analysis with SIFT
 
-This helped me understand how disk image analysis requires careful evidence handling, repeatable workflow, documentation and timeline-oriented thinking.
+I worked through disk image structure and file system evidence in a controlled analysis environment. The practical work included identifying partitions, inspecting directories and likely artifact locations, checking logs and timestamps, and looking for files or scripts worth investigating further.
 
----
+A recurring part of the process was keeping observations separate from assumptions. Finding an unusual file is a starting point, not automatically a conclusion.
 
-### Phishing Artifact Analysis with REMnux
+#### Phishing-related artifact analysis with REMnux
 
-I used a REMnux-style environment to analyze phishing-related artifacts safely.
+I inspected suspicious text, email-related and web-related artifacts without executing unknown content. I used basic Linux tools and decoding techniques to examine file types, metadata, URLs, domains, hashes, strings and possible obfuscation or redirect logic.
 
-The work included:
+The focus was on collecting leads, checking their context and documenting what could actually be supported by the available evidence.
 
-- Inspecting suspicious text-based artifacts, email-related files and web-related content
-- Checking file types and metadata
-- Extracting URLs, domains, filenames, hashes and suspicious strings
-- Looking for encoded or obfuscated content
-- Decoding content where appropriate
-- Reviewing possible redirection logic
-- Avoiding execution of unknown content
-- Documenting possible indicators and follow-up actions
+#### Mobile / source code review
 
-Tools and techniques included Linux command-line utilities such as file identification, hashing, strings, grep/ripgrep-style searching, text inspection and CyberChef-style decoding.
+I also performed static inspection of mobile- and source-code-related artifacts. I looked at permissions, manifests, configuration, endpoints, embedded values, possible secrets, suspicious functions and signs of data collection or network communication.
 
-This helped me understand the importance of safe static analysis, indicator validation and clear documentation.
-
----
-
-### Mobile / Source Code Analysis
-
-I also performed static review of mobile/source-code related artifacts.
-
-The work included checking for:
-
-- Application permissions
-- Manifest or configuration files
-- API endpoints
-- External URLs
-- Hardcoded values
-- Possible secrets or tokens
-- Suspicious functions
-- Network communication logic
-- Obfuscation indicators
-- Data collection or exfiltration-related logic
-
-I treated source code observations as leads that required validation, not as final conclusions by themselves.
-
-This helped me understand how code review can support incident analysis, especially when combined with other evidence sources.
-
----
+The code review was part of triage. I did not treat a suspicious-looking function by itself as proof of malicious activity.
 
 ## Lab and Infrastructure Work
 
-In addition to analysis work, I supported the preparation of a Proxmox-based cybersecurity lab environment.
+I helped prepare a Proxmox-based analysis environment alongside the forensic work. My tasks included preparing analysis VMs, working with SIFT/REMnux/FLARE-style environments, user configuration, templates, snapshots and access workflows. Network isolation and firewalling were also part of the planning.
 
-This included:
+This matters to me because the quality of the analysis depends partly on the environment. A lab should be safe to use, predictable and easy to reset or reproduce.
 
-- Preparing analysis virtual machines
-- Working with SIFT, REMnux and FLARE-style environments
-- Creating and configuring users for analysis systems
-- Supporting repeatable access workflows
-- Using VM templates and snapshots
-- Considering isolation and firewall rules
-- Preparing systems so analysts could work in a safer and more repeatable way
+### Local AI / Qwen environment
 
-This part taught me that infrastructure preparation is part of cybersecurity work. A good lab environment makes analysis safer, faster and easier to repeat.
+I supported work on a local LLM-based analysis environment intended for internal use where public AI services were not appropriate for confidential material. Its potential uses included static-analysis support, explaining tool output, command suggestions and documentation.
 
----
+I did **not** use the local AI setup as the main tool in my own final exercise analysis. It was supporting infrastructure, not a substitute for verifying findings.
 
-## Local AI / Qwen Environment Support
+### Elastic / Kibana preparation
 
-I supported the preparation of a local AI-assisted analysis environment based on a local LLM setup.
+Before the exercise, I practiced searching and filtering log data, working with time ranges and thinking through SOC-style investigation questions involving hosts, users, processes and network activity.
 
-The purpose of the local AI environment was to support internal analysis workflows where public AI tools were not suitable for confidential material.
+This was preparation. My main hands-on exercise work was with SIFT and REMnux, rather than an Elastic/Kibana investigation.
 
-The local environment could support:
+## How I Work
 
-- Malware and reverse-engineering workflows
-- Static analysis support
-- Command ideas
-- Documentation support
-- Analysis checklist creation
-- Explaining code or tool output
+My usual approach is fairly simple:
 
-I did not mainly use the local AI environment in my own final analysis work, but the environment supported other malware-analysis related work.
+1. Define what I'm trying to find out and what could go wrong.
+2. Establish a baseline before changing or connecting anything.
+3. Collect the observations and keep the original evidence where possible.
+4. Compare the results, test plausible explanations and document the limitations.
 
-The key lesson was that AI can support analysis and documentation, but it must not replace manual validation or analyst judgment.
+I try to distinguish between **facts**, **assessments** and **unknowns**. If I cannot verify something, I would rather leave it open than turn an assumption into a finding.
 
----
+Technical documentation is part of the work for me, not something I add only at the end. I maintain investigation notes, reusable checklists and playbooks so that I can revisit a case or repeat the process later.
 
-## AI Usage and Boundaries
+## AI Use and Information Handling
 
-Cloud-based AI tools were used before the exercise for preparation and learning support.
+I have used AI tools to support studying, understand tool output, plan checks and improve documentation. I still review commands and validate technical conclusions against actual evidence.
 
-This included:
+Public AI services were not used for confidential exercise material during the exercise. This repository intentionally excludes confidential exercise content, internal addresses and hostnames, credentials, sensitive screenshots and exact exercise solutions. Raw research evidence is not published here by default.
 
-- Learning support
-- Command examples
-- Grep/search ideas
-- Simple Python helper script ideas
-- Documentation structure
-- Playbook drafting
-- Checklist preparation
+## What I'm Working On Next
 
-During the exercise, public AI services were not used for confidential exercise material.
+My next learning priorities include more hands-on Elastic/Kibana investigations and KQL, forensic timeline analysis, phishing and malware triage with REMnux, mobile/APK analysis, and Ghidra/reverse-engineering fundamentals.
 
-All AI-generated suggestions were treated as untrusted assistance. Commands, scripts, findings and conclusions were manually reviewed and validated.
-
----
-
-## Elastic/Kibana Preparation
-
-Before the exercise, I practiced Elastic/Kibana-based log analysis and threat hunting workflows.
-
-This included:
-
-- Basic searching and filtering
-- Time range handling
-- Thinking about relevant fields
-- Practicing SOC-style investigation questions
-- Reviewing host, user, process and network event fields
-- Documenting findings and next steps
-
-Important clarification: my final hands-on exercise work focused mainly on SIFT/REMnux-based forensic and artifact analysis, not Elastic/Kibana investigation.
-
-Elastic/Kibana practice still helped me understand how log analysis supports incident response and threat hunting.
-
----
-
-## Documentation Work
-
-Documentation was a major part of my work.
-
-I created and practiced:
-
-- Investigation notes
-- DFIR workflows
-- Artifact analysis templates
-- Phishing analysis checklists
-- Disk image analysis notes
-- Mobile/source-code analysis checklists
-- IOC documentation structures
-- SOC/threat hunting playbooks
-- Public vs private documentation boundaries
-
-This helped me understand that documentation is not separate from technical cybersecurity work. Good documentation makes analysis easier to validate, continue and report.
-
----
-
-## Skills Demonstrated
-
-This portfolio demonstrates practical learning in:
-
-- Digital forensics basics
-- Disk image triage
-- VMDK analysis workflow
-- Phishing artifact analysis
-- Static source-code review
-- Linux command-line investigation
-- Safe handling of suspicious files
-- REMnux and SIFT workflows
-- Proxmox lab preparation
-- VM templates and snapshots
-- Secure analysis environment design
-- Local LLM / AI-assisted workflow support
-- Technical documentation
-- SOC/DFIR process understanding
-
----
-
-## Lessons Learned
-
-Key lessons:
-
-- Evidence handling and documentation are critical.
-- Public writeups must be sanitized.
-- Findings, assumptions and next steps must be separated.
-- Static analysis is useful, but conclusions require validation.
-- Lab preparation makes analysis safer and faster.
-- Elastic/Kibana is an important area for continued SOC practice.
-- AI can support learning, commands and documentation, but it must not be treated as final evidence.
-- It is important to be honest about what was actually done and what was only prepared or practiced.
-
----
-
-## Next Steps
-
-Areas I want to improve next:
-
-- More practical Elastic/Kibana hunting
-- Better KQL skills
-- Deeper forensic timeline analysis
-- More structured phishing analysis
-- Mobile/APK analysis
-- Static malware analysis with REMnux
-- Ghidra and reverse-engineering basics
-- Better English technical reporting
-- More sanitized portfolio writeups
+I also want to keep improving my technical reporting in English and publish more projects where the testing process and the limits of the conclusions are visible.
