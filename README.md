@@ -1,14 +1,14 @@
 # Cybersecurity Learning Portfolio
 
-**Blue Team / DFIR · Linux · Security Labs · Hardware Security**
+**Blue Team / DFIR · Linux · Security Labs · Hardware Security · CTFs**
 
 ## About this portfolio
 
-I'm an ICT student focusing on data networks and cybersecurity. My main interest is on the defensive side: understanding what happened, finding the evidence and being able to explain the result. I also enjoy building the lab environments needed to investigate things properly.
+I'm an ICT student focusing on data networks and cybersecurity. Blue Team and DFIR are my main interests, but I also practice offensive security through CTFs and controlled labs. I like figuring out how something works, what evidence it leaves behind and how to explain the findings clearly.
 
-This repository is where I document some of that hands-on work. It includes an independent USB-C dock investigation and a sanitized overview of my work in a cyber defence exercise environment. These are separate projects, and I try to make that distinction clear.
+I also enjoy building the lab environments needed to investigate things properly. This repository brings together some of that hands-on work: an independent USB-C dock investigation, a sanitized overview of my work in a cyber defence exercise, and notes from other practical learning projects.
 
-I'm not presenting every tool I've tried as an area of expertise. The idea is to show **what I actually did, how I approached it, what I found and what remained unanswered**.
+I don't want this to be just a list of tools I've used. I'd rather show **what I actually did, how I approached it, what I found and what I couldn't verify**.
 
 ## Projects
 
@@ -29,7 +29,7 @@ The Ethernet link negotiated at **1000 Mbit/s full duplex**. Bidirectional ICMP 
 
 That is **not** the same as proving the dock is secure. USB-C Power Delivery was not tested, and I did not carry out firmware reverse engineering.
 
-**[Read the project write-up](projects/deltaco-usbc-dock2/README.md)**  
+[**Read the project write-up**](projects/deltaco-usbc-dock2/README.md)  
 [Technical DFIR report (Finnish)](projects/deltaco-usbc-dock2/docs/technical-report-fi.md) · [Step-by-step investigation guide (Finnish)](projects/deltaco-usbc-dock2/docs/investigation-guide-fi.md)
 
 ### Cyber Defence Exercise – Forensics and Artifact Analysis
@@ -56,17 +56,19 @@ I also performed static inspection of mobile- and source-code-related artifacts.
 
 The code review was part of triage. I did not treat a suspicious-looking function by itself as proof of malicious activity.
 
+## CTFs and Offensive Security Practice
+
+Alongside my defensive security work, I take part in CTFs and practice offensive techniques in authorized lab environments. I enjoy working through challenges, testing ideas and understanding how a weakness could be used in practice.
+
+This also helps with the defensive side: when I understand how an attack works, I can think more clearly about what traces it might leave and how to investigate them. I'm still developing these skills, and I plan to add selected CTF and lab write-ups as I document them. I will only publish challenge details when the rules allow it.
+
 ## Lab and Infrastructure Work
 
 I helped prepare a Proxmox-based analysis environment alongside the forensic work. My tasks included preparing analysis VMs, working with SIFT/REMnux/FLARE-style environments, user configuration, templates, snapshots and access workflows. Network isolation and firewalling were also part of the planning.
 
 This matters to me because the quality of the analysis depends partly on the environment. A lab should be safe to use, predictable and easy to reset or reproduce.
 
-### Local AI / Qwen environment
-
-I supported work on a local LLM-based analysis environment intended for internal use where public AI services were not appropriate for confidential material. Its potential uses included static-analysis support, explaining tool output, command suggestions and documentation.
-
-I did **not** use the local AI setup as the main tool in my own final exercise analysis. It was supporting infrastructure, not a substitute for verifying findings.
+I also supported the preparation of a local Qwen-based environment for analysis assistance. It was supporting infrastructure, not the main tool in my own forensic work.
 
 ### Elastic / Kibana preparation
 
@@ -87,14 +89,10 @@ I try to distinguish between **facts**, **assessments** and **unknowns**. If I c
 
 Technical documentation is part of the work for me, not something I add only at the end. I maintain investigation notes, reusable checklists and playbooks so that I can revisit a case or repeat the process later.
 
-## AI Use and Information Handling
-
-I have used AI tools to support studying, understand tool output, plan checks and improve documentation. I still review commands and validate technical conclusions against actual evidence.
-
-Public AI services were not used for confidential exercise material during the exercise. This repository intentionally excludes confidential exercise content, internal addresses and hostnames, credentials, sensitive screenshots and exact exercise solutions. Raw research evidence is not published here by default.
+I sometimes use AI tools to help with learning or documentation, but I verify technical findings against actual evidence. This public portfolio excludes confidential exercise material, internal addresses, credentials, sensitive screenshots and exact exercise solutions. Raw research evidence is not published here by default.
 
 ## What I'm Working On Next
 
 My next learning priorities include more hands-on Elastic/Kibana investigations and KQL, forensic timeline analysis, phishing and malware triage with REMnux, mobile/APK analysis, and Ghidra/reverse-engineering fundamentals.
 
-I also want to keep improving my technical reporting in English and publish more projects where the testing process and the limits of the conclusions are visible.
+I also want to document more of my CTF and offensive-security practice, improve my technical reporting in English and publish projects where the investigation process and the limits of the conclusions are visible.
